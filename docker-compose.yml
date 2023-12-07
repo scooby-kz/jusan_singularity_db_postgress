@@ -1,0 +1,20 @@
+version: '3'
+services:
+  bd:
+    image: postgres
+    ports:
+      - 5432:5432
+    restart: always
+    volumes:
+      - ./dump_2.sql:/dump_2.sql
+      - ./restore.sh:/docker-entrypoint-initdb.d/restore.sh
+    environment:
+      - POSTGRES_PASSWORD=josecarlo
+    # command: pg_restore -U postgres -d postgres dump_2.sql
+  bg_manager:
+    image: dpage/pgadmin4
+    ports:
+      - 80:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=josecarlo
