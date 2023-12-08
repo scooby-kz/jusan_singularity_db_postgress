@@ -91,6 +91,13 @@ ___
 
 5.	Вывести марку модель и имя и фамилию которые выходят на работу 5 января 2023
 
+raw
+```sql
+SELECT driver.name AS driver_name, driver.lastname, schedule.dateschedule, schedule.idcar, car.number
+FROM driver
+JOIN schedule ON driver.id = schedule.iddriver
+JOIN car ON schedule.idcar = car.id;
+```
 
 6.	Вывести марки и модели которые нет в таблице car
 7.	Вывести марку модель номер авто имя и фамилию водителя и имя и фамилию клиента у которых locationfinish равен Astana-Arena
