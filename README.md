@@ -36,7 +36,30 @@ and car.idmodel = model.id
 ___
 2.	Вывести все модели BMW в таблице Модель
 
+Query
+```sql
+select model.name
+from model,brand
+where brand.id=model.idbrand
+and brand.name='BMW'
+```
+Answer
+| "name"    |
+|-----------|
+| "X6"      |
+| "M3"      |
+| "5 серия" |
+| "iX"      |
+___
 3.	Вывести клиентов младше 25 лет
+```sql
+select name,
+EXTRACT(YEAR FROM birthdate) As "Year"
+from client
+WHERE EXTRACT(YEAR FROM birthdate) < 1998;
+```
+==Таких нету там у всех указан год 1994==
+
 4.	Вывести возраст водителей и имя и фамилию
 5.	Вывести марку модель и имя и фамилию которые выходят на работу 5 января 2023
 6.	Вывести марки и модели которые нет в таблице car
