@@ -58,10 +58,40 @@ EXTRACT(YEAR FROM birthdate) As "Year"
 from client
 WHERE EXTRACT(YEAR FROM birthdate) < 1998;
 ```
-==Таких нету там у всех указан год 1994==
+`Таких нету там у всех указан год 1994`
+___
 
 4.	Вывести возраст водителей и имя и фамилию
+
+`Запрос`
+```sql
+select name, lastname, 
+EXTRACT(year FROM AGE(NOW(), birthdate)) AS Age
+from driver;
+```
+`Вывод`
+| "name"    | "lastname"  | "age" |
+|-----------|-------------|-------|
+| "Abu"     | "Abu"       | 30    |
+| "Tima"    | "Lars"      | 40    |
+| "Timur"   | "Timur"     | 23    |
+| "Aigerim" | "Aitpaeva"  | 28    |
+| "Akhmet"  | "Akhmetov"  | 23    |
+| "Tima"    | "Lars"      | 30    |
+| "Adlet"   | "Timur"     | 24    |
+| "Tima"    | "Lars"      | 30    |
+| "Adlet"   | "Timur"     | 24    |
+| "Tima"    | "Lars"      | 30    |
+| "Adlet"   | "Timur"     | 24    |
+| "Tima"    | "Lars"      | 30    |
+| "Adlet"   | "Timur"     | 24    |
+| "Smagul"  | "Negmatov"  | 30    |
+| "Dariya"  | "Negmatova" | 24    |
+___
+
 5.	Вывести марку модель и имя и фамилию которые выходят на работу 5 января 2023
+
+
 6.	Вывести марки и модели которые нет в таблице car
 7.	Вывести марку модель номер авто имя и фамилию водителя и имя и фамилию клиента у которых locationfinish равен Astana-Arena
 8.	Вывести марку модель номер авто имя и фамилию водителя и имя и фамилию клиента у которых locationfinish равен Astana-Arena и самая дорогая стоймость поездки
