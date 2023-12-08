@@ -10,7 +10,32 @@ pg_restore -U postgres -d postgres /dump_2.sql
 
 __Select__
 1.	Вывести номер, марку и модели в гараже Таксопарка
-2.	Вывести все модели BMW в табилце Модель
+
+Запрос
+```sql
+select number,brand.name,model.name
+from car,brand,model
+where car.idbrand = brand.id
+and car.idmodel = model.id
+```
+Ответ
+
+| "number"     | "name"    | "name-2"   |
+|--------------|-----------|------------|
+| "A006BMW"    | "BMW"     | "X6"       |
+| "Z001VIP"    | "BMW"     | "iX"       |
+| "KZ002TAA13" | "Hyundai" | "Sonata"   |
+| "A865TGH"    | "Hyundai" | "Santa fe" |
+| "Z111SVM"    | "Hyundai" | "Santa fe" |
+| "Z123AAA"    | "Hyundai" | "Santa fe" |
+| "A002CAP"    | "Buggati" | "Divo"     |
+| "A001AAA"    | "Ferrari" | "Roma"     |
+| "A956TIM"    | "Chery"   | "Tiggo 8"  |
+| "Z001CAM"    | "Toyota"  | "Camry"    |
+| "B659GHM"    | "Nissan"  | "Almera"   |
+___
+2.	Вывести все модели BMW в таблице Модель
+
 3.	Вывести клиентов младше 25 лет
 4.	Вывести возраст водителей и имя и фамилию
 5.	Вывести марку модель и имя и фамилию которые выходят на работу 5 января 2023
