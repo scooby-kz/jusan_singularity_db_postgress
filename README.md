@@ -131,6 +131,7 @@ where car.id is null;
 | "Chevrolet"  | "Niva"        |
 ---
 7.	Вывести марку модель номер авто имя и фамилию водителя и имя и фамилию клиента у которых locationfinish равен Astana-Arena
+
 `Zapros`
 ```sql
 SELECT brand.name, model.name, driver.name, driver.lastname, client.name as client_name, client.lastname as client_lastname
@@ -158,7 +159,56 @@ where route.locationfinish = 'Astana-Arena'
 | "Hyundai"    | "Santa fe"   | "Aigerim"      | "Aitpaeva"         | "Sahsa"       | "Khan"            |
 ___
 8.	Вывести марку модель номер авто имя и фамилию водителя и имя и фамилию клиента у которых locationfinish равен Astana-Arena и самая дорогая стоймость поездки
+
+`Zapros`
+```sql
+SELECT brand.name as Brand_name, model.name as Model_name, driver.name as Drivers_name, driver.lastname as Drivers_lastname, 
+client.name as client_name, 
+client.lastname as client_lastname, (route.costs)
+from route
+join schedule
+on schedule.id = route.idschedule
+join client
+on client.id = route.idclient
+join driver
+on driver.id = schedule.iddriver
+join car
+on car.id = schedule.idcar
+join brand
+on brand.id = car.idbrand
+join model
+on model.id = car.idmodel
+where route.locationfinish = 'Astana-Arena'
+order by route.costs desc
+limit 1
+```
+`Answer`
+| "brand_name" | "model_name" | "drivers_name" | "drivers_lastname" | "client_name" | "client_lastname" | "costs" |
+|--------------|--------------|----------------|--------------------|---------------|-------------------|---------|
+| "Hyundai"    | "Santa fe"   | "Aigerim"      | "Aitpaeva"         | "Sahsa"       | "Khan"            | 5000    |
+___
+
 9.	Вывести все машины которые выехали на работу и провели маршрут которые являются бизнес класса
+`Zapros`
+```sql
+select brand.name, model.name, type.name
+from schedule
+join car
+on car.id = schedule.idcar
+join brand
+on brand.id = car.idbrand
+join model
+on model.id = car.idmodel
+join type
+on type.id = car.idtype
+where type.name = 'Бизнес'
+```
+`Answer`
+| "name" | "name-2" | "name-3" |
+|--------|----------|----------|
+| "BMW"  | "X6"     | "Бизнес" |
+| "BMW"  | "iX"     | "Бизнес" |
+---
 10.	Вывести средную стоймость для машин класса Бизнес с разбивкой по дате
 11.	Вывести ФИО клиентов которые провели поездки на машинах марки BMW 
 12.	Вывести общую сумму сколько заработал таксопарк(общая сумма – процент водителей и – 10% налога) по поездкам за 05/01/2023 по разбивкам класса авто если класс не выехал написать 0
