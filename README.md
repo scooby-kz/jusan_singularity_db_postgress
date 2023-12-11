@@ -129,9 +129,34 @@ where car.id is null;
 | "Chevrolet"  | "Aveo"        |
 | "Chevrolet"  | "Cruze"       |
 | "Chevrolet"  | "Niva"        |
-
+---
 7.	Вывести марку модель номер авто имя и фамилию водителя и имя и фамилию клиента у которых locationfinish равен Astana-Arena
-
+`Zapros`
+```sql
+SELECT brand.name, model.name, driver.name, driver.lastname, client.name as client_name, client.lastname as client_lastname
+from route
+join schedule
+on schedule.id = route.idschedule
+join client
+on client.id = route.idclient
+join driver
+on driver.id = schedule.iddriver
+join car
+on car.id = schedule.idcar
+join brand
+on brand.id = car.idbrand
+join model
+on model.id = car.idmodel
+where route.locationfinish = 'Astana-Arena'
+```
+`Otvet`
+| "brand_name" | "model_name" | "drivers_name" | "drivers_lastname" | "client_name" | "client_lastname" |
+|--------------|--------------|----------------|--------------------|---------------|-------------------|
+| "BMW"        | "X6"         | "Abu"          | "Abu"              | "Smagul"      | "Negmatov"        |
+| "BMW"        | "iX"         | "Tima"         | "Lars"             | "Ahmet"       | "Ahmetov"         |
+| "Hyundai"    | "Sonata"     | "Timur"        | "Timur"            | "Tima"        | "Li"              |
+| "Hyundai"    | "Santa fe"   | "Aigerim"      | "Aitpaeva"         | "Sahsa"       | "Khan"            |
+___
 8.	Вывести марку модель номер авто имя и фамилию водителя и имя и фамилию клиента у которых locationfinish равен Astana-Arena и самая дорогая стоймость поездки
 9.	Вывести все машины которые выехали на работу и провели маршрут которые являются бизнес класса
 10.	Вывести средную стоймость для машин класса Бизнес с разбивкой по дате
