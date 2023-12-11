@@ -91,16 +91,47 @@ ___
 
 5.	Вывести марку модель и имя и фамилию которые выходят на работу 5 января 2023
 
-raw
 ```sql
 SELECT driver.name AS driver_name, driver.lastname, schedule.dateschedule, schedule.idcar, car.number
 FROM driver
 JOIN schedule ON driver.id = schedule.iddriver
-JOIN car ON schedule.idcar = car.id;
+JOIN car ON schedule.idcar = car.id
+where schedule.dateschedule = '2023-01-05';
 ```
+`Answer`
+| "Abu"     | "Abu"      | "2023-01-05" | 1 | "A006BMW"    |
+|-----------|------------|--------------|---|--------------|
+| "Tima"    | "Lars"     | "2023-01-05" | 2 | "Z001VIP"    |
+| "Timur"   | "Timur"    | "2023-01-05" | 3 | "KZ002TAA13" |
+| "Aigerim" | "Aitpaeva" | "2023-01-05" | 4 | "Z123AAA"    |
+| "Akhmet"  | "Akhmetov" | "2023-01-05" | 5 | "Z111SVM"    |
+| "Tima"    | "Lars"     | "2023-01-05" | 6 | "A865TGH"    |
 
 6.	Вывести марки и модели которые нет в таблице car
+`Zapros`
+```sql
+SELECT brand.name,model.name
+from car
+right join brand
+on car.idbrand = brand.id
+right join model
+on brand.id = model.idbrand
+where car.id is null;
+```
+`Otvet`
+| "brand"      | "model"       |
+|--------------|---------------|
+| "Land Rover" | "Range Rover" |
+| "Land Rover" | "Discovery"   |
+| "Land Rover" | "Defender"    |
+| "Ravon"      | "Matiz"       |
+| "Ravon"      | "R4"          |
+| "Chevrolet"  | "Aveo"        |
+| "Chevrolet"  | "Cruze"       |
+| "Chevrolet"  | "Niva"        |
+
 7.	Вывести марку модель номер авто имя и фамилию водителя и имя и фамилию клиента у которых locationfinish равен Astana-Arena
+
 8.	Вывести марку модель номер авто имя и фамилию водителя и имя и фамилию клиента у которых locationfinish равен Astana-Arena и самая дорогая стоймость поездки
 9.	Вывести все машины которые выехали на работу и провели маршрут которые являются бизнес класса
 10.	Вывести средную стоймость для машин класса Бизнес с разбивкой по дате
