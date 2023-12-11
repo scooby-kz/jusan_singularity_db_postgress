@@ -210,8 +210,80 @@ where type.name = 'Бизнес'
 | "BMW"  | "iX"     | "Бизнес" |
 ---
 10.	Вывести средную стоймость для машин класса Бизнес с разбивкой по дате
-11.	Вывести ФИО клиентов которые провели поездки на машинах марки BMW 
+`Query`
+```sql
+select brand.name, model.name, type.name, route.costs, schedule.dateschedule
+from schedule
+join car
+on car.id = schedule.idcar
+join brand
+on brand.id = car.idbrand
+join model
+on model.id = car.idmodel
+join type
+on type.id = car.idtype
+join route
+on route.idschedule = schedule.id
+where type.name = 'Бизнес'
+```
+`Answer`
+
+| "name" | "name-2" | "name-3" | "costs" | "dateschedule" |
+|--------|----------|----------|---------|----------------|
+| "BMW"  | "X6"     | "Бизнес" | 3000    | "2023-01-05"   |
+| "BMW"  | "iX"     | "Бизнес" | 4000    | "2023-01-05"   |
+---
+11.	Вывести ФИО клиентов которые провели поездки на машинах марки BMW
+`Zapros`
+```sql
+select brand.name, model.name, type.name, client.name, client.lastname
+from schedule
+join car
+on car.id = schedule.idcar
+join brand
+on brand.id = car.idbrand
+join model
+on model.id = car.idmodel
+join type
+on type.id = car.idtype
+join route
+on route.idschedule = schedule.id
+join client
+on client.id = route.idclient
+where type.name = 'Бизнес'
+``` 
+`Вывод`
+| "name" | "name-2" | "name-3" | "name-4" | "lastname" |
+|--------|----------|----------|----------|------------|
+| "BMW"  | "X6"     | "Бизнес" | "Smagul" | "Negmatov" |
+| "BMW"  | "iX"     | "Бизнес" | "Ahmet"  | "Ahmetov"  |
+---
 12.	Вывести общую сумму сколько заработал таксопарк(общая сумма – процент водителей и – 10% налога) по поездкам за 05/01/2023 по разбивкам класса авто если класс не выехал написать 0
+
+`Zapros`
+```sql
+select type.name, sum(route.costs*0.9)-sum(schedule.procentdriver) as Выручка
+from type
+join car
+on type.id = car.idtype
+join schedule
+on schedule.idcar = car.id
+join route
+on schedule.id = route.idschedule
+where schedule.dateschedule = '2023-01-05'
+group by type.name
+```
+`Answer`
+| "name"    | "Выручка" |
+|-----------|-----------|
+| "Бизнес"  | 6291.5    |
+| "Комфорт" | 1795      |
+| "Эконом"  | 4496      |
+
+> `если класс не выехал написать 0` - С этим не разобрался
+---
+
+
 
 __Insert__
 
