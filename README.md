@@ -377,5 +377,11 @@ where client.name = driver.name and client.lastname = driver.lastname
 ```
 __Delete__ 
 1.	Удалить бренды и модели которые нет в табилце car 
+```sql
+--Так как у нас есть foreigh key которые относятся к таблице brand надо сначала их найти и удалить, после можно удалить с самой таблицы
+DELETE FROM model WHERE idbrand not in (select idbrand from car);
+DELETE FROM brand WHERE id not in (select idbrand from car);
+```
+
 2.	Удалить клиента с id 1 
 3.	Удалить тип авто эконом
