@@ -288,16 +288,93 @@ group by type.name
 __Insert__
 
 1.	Добавить пассажира со своими данными.
+```sql
+--Через insert вставляем в таблицу client, _default_ используеться чтобы не ввожить вручную все поля
+insert into client
+values (default, 'Nurs', 'Baizeldinov', '1990-07-07', 7771234567, 90000000)
+
+--После проверем на корректность добавленого пассажира
+select * from client
+where name = 'Nurs'
+```
+
 2.	Добавить пассажира с данными пятерых водителей
+```sql
+--Выбираем куда вставляем данные
+insert into client (name,lastname,birthdate,phone,iin)
+--с помощью селекта из таблы драйвер заполняем пассажиров
+select name,lastname,birthdate,phone,iin from driver
+--Ограничиваем 5ью записями
+limit 5
+```
 3.	Добавить новый маршрут для водителя Smagul Negmatov на машине А001ААА процент от поездки добавить 5% и маршрут от Керуена до EXPO по цене 10000 время 6/01/2023 10:20:00 до 6/01/2023 11:00:00
+```sql
+--Добавляем данный о маршруте
+insert into route
+values (default,default,default, '6/01/2023 10:20:00', '6/01/2023 11:00:00', 'Keruen', 'Expo', 10000)
+--Добавляем новый маршрут в расписание вставляю во второй и 3 столю id таксиста и машины который нашли вручную, вероятно есть способ автоматизировать решил пока так оставить
+insert into schedule
+values (default,14,7, 5, '6/01/2023', true)
+```
 4.	Добавить авто Марки Lamborghini Urus с номером KZ333ZZZ01 типа бизнес
+```sql
+--Сначало создаем Бренд
+insert into brand (name)
+values ('Lamborghini')
+--После в таблице модель ссылаемся на бренб Ламбо и создаем модель Урус
+insert into model (name,idbrand)
+values ('Urus', (select id from brand where name = 'Lamborghini'))
+```
 
 
 __Update__ 
 1.	Изменить всем водителям у кого нет рейтинга на рейтинг 0
+```sql
+--Обновляем с помощтю update и case
+UPDATE driver
+SET rating = CASE
+    WHEN rating IS NULL THEN 0
+    ELSE rating
+END;
+--После удостоверямся что вместо null теперь 0 у тех водителей у который ранее не было рейтинга
+select * from driver
+```
 2.	Изменить ИИН у водителей у кого ИИН количество символов не равен 12 на 111111111111
+```sql
+-- Смотрим есть ли иин длина которых равна 12 символам с помощью функции length если есть меняем на 1111111
+UPDATE driver
+SET iin = CASE
+    WHEN LENGTH(iin) = 12 THEN '111111111111'
+    ELSE iin
+END;
+--Но таких нету, можно проверить вот так
+select length(iin)
+from driver
+where length(iin) = 12
+--Результатом будет пустой ответ
+```
 3.	Изменить сделать одинаковыми ИИН у клиентов и водителей у кого одинаковые имя и фамилия
+```sql
+UPDATE driver
+SET iin = (
+    SELECT iin
+    FROM client
+    WHERE driver.name = client.name
+        AND driver.lastname = client.lastname
+    LIMIT 1
+)
+WHERE EXISTS (
+    SELECT 1
+    FROM client
+    WHERE driver.name = client.name
+        AND driver.lastname = client.lastname
+);
+--После смотрим изменения данным запросом
+select client.name,client.lastname,driver.name,driver.lastname, client.iin, driver.iin
+from client,driver
+where client.name = driver.name and client.lastname = driver.lastname
 
+```
 __Delete__ 
 1.	Удалить бренды и модели которые нет в табилце car 
 2.	Удалить клиента с id 1 
