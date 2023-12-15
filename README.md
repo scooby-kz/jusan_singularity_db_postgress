@@ -353,6 +353,7 @@ from driver
 where length(iin) = 12
 --Результатом будет пустой ответ
 ```
+___
 3.	Изменить сделать одинаковыми ИИН у клиентов и водителей у кого одинаковые имя и фамилия
 ```sql
 UPDATE driver
@@ -373,8 +374,8 @@ WHERE EXISTS (
 select client.name,client.lastname,driver.name,driver.lastname, client.iin, driver.iin
 from client,driver
 where client.name = driver.name and client.lastname = driver.lastname
-
 ```
+---
 __Delete__ 
 1.	Удалить бренды и модели которые нет в табилце car 
 ```sql
@@ -382,6 +383,31 @@ __Delete__
 DELETE FROM model WHERE idbrand not in (select idbrand from car);
 DELETE FROM brand WHERE id not in (select idbrand from car);
 ```
-
+___
 2.	Удалить клиента с id 1 
+```sql
+--Так как на клиента с айди 1 есть сслыка в таблице роут надо сначала удалить ее после самого клиента
+delete from route
+where idclient = 1;
+delete from client
+where id = 1;
+```
+---
 3.	Удалить тип авто эконом
+```sql
+--Так как у нас много связей через foreighn key между таблицами в schedule чтобы не удалить записи об поездках меняем там idcar, это нам позволит послу удалить Эконом класс
+update schedule set idcar = 2
+where idcar in (select id from car where idtype = 1);
+delete from car
+where idtype = 1;
+delete from type
+where id = 1;
+```
+`Answer`
+
+| id integer | name character varying | "name-3" |
+|:----------:|:----------------------:|----------|
+|      1     | 2                      | Комфорт  |
+|      2     | 3                      | Бизнес   |
+
+---
